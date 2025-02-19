@@ -6,7 +6,7 @@ This Python script creates a custom system tray indicator for Ubuntu that monito
 
 - **Dynamic Icon Updates**: Automatically updates the system tray icon based on the service status.
 - **Start/Stop Menu**: Allows you to start or stop the service with a single click.
-- **Flexible Configuration**: Configure the service name, icons, and messages using a `service-indicator.ini` file.
+- **Flexible Configuration**: Configure the service name, icons, and messages using INI file.
 - **SVG Icon Support**: Uses scalable vector graphics (SVG) for crisp and high-quality icons.
 - **Autostart Option**: Can be configured to start automatically when you log in to your system.
 
@@ -23,16 +23,18 @@ This Python script creates a custom system tray indicator for Ubuntu that monito
 1. Clone the repository.
 2. Install the required dependencies.
 3. Place your SVG icons in the same directory as the script.
-4. Edit the `service-indicator.ini` file to specify the service name, icons, and messages.
+4. Edit the INI file to specify the service name, icons, and messages.
 5. Run the script:
    ```bash
    ./service-indicator.py
    ```
 6. Optionally, configure the script to start automatically at login.
 
-## Configuration File (`service-indicator.ini`)
+## Configuration File
 
-The `service-indicator.ini` file allows you to customize the script without modifying the code. Here’s an example configuration:
+INI file allows you to customize the script without modifying the code.
+INI file's name must be equal to the name of the script. If the script is `service-indicator.py`, the INI file must be `service-indicator.ini`.
+Here’s an example configuration:
 
 ```ini
 [Service]

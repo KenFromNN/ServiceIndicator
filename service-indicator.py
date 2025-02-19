@@ -11,11 +11,23 @@ gi.require_version("Gtk", "3.0")
 gi.require_version("AppIndicator3", "0.1")
 from gi.repository import Gtk, AppIndicator3, GLib
 
-# Load properties from the INI file
-config = configparser.ConfigParser()
+# Determine INI file name dynamically
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-properties_path = os.path.join(SCRIPT_DIR, 'service-indicator.ini')
-config.read(properties_path)
+SCRIPT_NAME = os.path.splitext(os.path.basename(__file__))[0]
+INI_FILE = os.path.join(SCRIPT_DIR, f"{SCRIPT_NAME}.ini")
+
+# Validate INI file existence
+if not os.path.exists(INI_FILE):
+    print(f"Error: Configuration file '{INI_FILE}' not found.")
+    sys.exit(1)
+
+# Load properties from the INI file with error handling
+config = configparser.ConfigParser()
+try:
+    config.read(INI_FILE)
+except configparser.Error as e:
+    print(f"Error reading configuration file '{INI_FILE}': {e}")
+    sys.exit(1)
 
 # Function to get a required configuration value
 def get_required_config(section, key):
@@ -27,13 +39,13 @@ def get_required_config(section, key):
 
 # Get required service name, indicator ID, and update delay
 SERVICE_NAME = get_required_config('Service', 'name')
-APPINDICATOR_ID = get_required_config('Service', 'indicator_id') # Unique identifier for the indicator
+APPINDICATOR_ID = get_required_config('Service', 'indicator_id')  # Unique identifier for the indicator
 UPDATE_DELAY = int(get_required_config('Service', 'update_delay'))  # Update interval in seconds
 
 # Get required icon paths and descriptions
-ICON_ACTIVE = os.path.join(SCRIPT_DIR, get_required_config('Icons', 'active')) # Icon when service is active
+ICON_ACTIVE = os.path.join(SCRIPT_DIR, get_required_config('Icons', 'active'))  # Icon when service is active
 ICON_ACTIVE_DESCRIPTION = get_required_config('Icons', 'active_description')
-ICON_INACTIVE = os.path.join(SCRIPT_DIR, get_required_config('Icons', 'inactive')) # Icon when service is inactive
+ICON_INACTIVE = os.path.join(SCRIPT_DIR, get_required_config('Icons', 'inactive'))  # Icon when service is inactive
 ICON_INACTIVE_DESCRIPTION = get_required_config('Icons', 'inactive_description')
 
 # Get required messages
